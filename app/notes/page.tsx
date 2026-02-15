@@ -1,5 +1,5 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { getNotes } from '../../lib/api';
+import { getNotes } from '@/lib/api';
 import NotesClient from './Notes.client';
 
 export const dynamic = 'force-dynamic';
@@ -9,8 +9,8 @@ export default async function NotesPage() {
 
   try {
     await queryClient.prefetchQuery({
-      queryKey: ['notes'],
-      queryFn: getNotes,
+      queryKey: ['notes', 1, ''], 
+      queryFn: () => getNotes(1, ''), 
     });
   } catch (error) {
     console.error('Failed to prefetch notes:', error);
