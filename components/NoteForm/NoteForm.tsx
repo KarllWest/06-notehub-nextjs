@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { NoteInput } from '@/types/note';
+import { NoteInput } from '../../types/note';
 import css from './NoteForm.module.css'; 
 
 interface NoteFormProps {

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Note } from '@/types/note';
+import { Note } from '../../types/note';
 import css from './NoteList.module.css'; 
 
 interface NoteListProps {

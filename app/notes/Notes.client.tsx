@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getNotes, createNote, deleteNote } from '@/lib/api';
-import NoteForm from '@/components/NoteForm/NoteForm';
-import NoteList from '@/components/NoteList/NoteList';
-import SearchBox from '@/components/SearchBox/SearchBox';
-import Modal from '@/components/Modal/Modal';
-import Pagination from '@/components/Pagination/Pagination';
+import { getNotes, createNote, deleteNote } from '../../lib/api';
+import NoteForm from '../../components/NoteForm/NoteForm';
+import NoteList from '../../components/NoteList/NoteList';
+import SearchBox from '../../components/SearchBox/SearchBox';
+import Modal from '../../components/Modal/Modal';
+import Pagination from '../../components/Pagination/Pagination';
 import css from './Notes.module.css';
 
 const ITEMS_PER_PAGE = 5; 

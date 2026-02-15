@@ -1,5 +1,5 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { getNotes } from '@/lib/api';
+import { getNotes } from '../../lib/api';
 import NotesClient from './Notes.client';
 
 export const dynamic = 'force-dynamic';
