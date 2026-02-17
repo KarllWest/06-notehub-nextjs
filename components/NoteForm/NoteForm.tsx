@@ -4,36 +4,42 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { createNote } from '@/lib/api';
-import type { NoteInput } from '@/types/note';
+import { NoteInput } from '@/types/note';
 import css from './NoteForm.module.css';
 
-// Схема валідації
+const TAG_OPTIONS = ["Todo", "Work", "Personal", "Meeting", "Shopping"];
+
 const validationSchema = Yup.object({
-  title: Yup.string().required('Title is required'),
-  content: Yup.string().required('Content is required'),
-  tag: Yup.string().required('Tag is required'),
+  title: Yup.string()
+    .required('Title is required')
+    .min(3, 'Minimum 3 characters')  
+    .max(50, 'Maximum 50 characters'), 
+  content: Yup.string()
+    .max(500, 'Maximum 500 characters'), 
+  tag: Yup.string()
+    .oneOf(TAG_OPTIONS, 'Invalid tag') 
+    .required('Tag is required'),
 });
 
 interface NoteFormProps {
-  onClose: () => void; 
+  onClose: () => void;
 }
 
 export default function NoteForm({ onClose }: NoteFormProps) {
   const queryClient = useQueryClient();
 
-  // Мутація всередині форми
   const mutation = useMutation({
     mutationFn: createNote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
-      onClose(); 
+      onClose();
     },
   });
 
   const initialValues: NoteInput = {
     title: '',
     content: '',
-    tag: 'Personal', 
+    tag: 'Todo', 
   };
 
   return (
@@ -61,10 +67,9 @@ export default function NoteForm({ onClose }: NoteFormProps) {
           <div className={css.field}>
             <label htmlFor="tag">Tag</label>
             <Field name="tag" as="select" className={css.select}>
-              <option value="Personal">Personal</option>
-              <option value="Work">Work</option>
-              <option value="Family">Family</option>
-              <option value="Study">Study</option>
+              {TAG_OPTIONS.map(tag => (
+                <option key={tag} value={tag}>{tag}</option>
+              ))}
             </Field>
             <ErrorMessage name="tag" component="div" className={css.error} />
           </div>
@@ -83,7 +88,7 @@ export default function NoteForm({ onClose }: NoteFormProps) {
               className={css.submitButton}
               disabled={isSubmitting || mutation.isPending}
             >
-              {mutation.isPending ? 'Saving...' : 'Save'}
+              {mutation.isPending ? 'Creating...' : 'Create note'}
             </button>
           </div>
         </Form>

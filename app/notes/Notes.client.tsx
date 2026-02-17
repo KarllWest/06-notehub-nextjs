@@ -17,10 +17,12 @@ export default function NotesClient() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, isError } = useQuery({
+  // 👇 ДОДАНО: error, retry: false
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['notes', currentPage, debouncedSearch],
     queryFn: () => getNotes(currentPage, debouncedSearch),
-    placeholderData: keepPreviousData, 
+    placeholderData: keepPreviousData,
+    retry: false, // Вимикаємо повторні спроби, щоб бачити помилку одразу
   });
 
   const handlePageChange = (page: number) => {
@@ -33,7 +35,18 @@ export default function NotesClient() {
     setCurrentPage(1);
   };
 
-  if (isError) return <p className={css.error}>Error loading notes.</p>;
+  // 👇 ЗМІНЕНО: Виводимо деталі помилки на екран
+  if (isError) {
+    return (
+      <div style={{ padding: '20px', color: 'red', textAlign: 'center' }}>
+        <h2>Error loading notes</h2>
+        <p>Technical details:</p>
+        <pre style={{ background: '#f0f0f0', padding: '10px', borderRadius: '5px', display: 'inline-block', textAlign: 'left' }}>
+          {JSON.stringify(error, null, 2)}
+        </pre>
+      </div>
+    );
+  }
 
   return (
     <main className={css.container}>
