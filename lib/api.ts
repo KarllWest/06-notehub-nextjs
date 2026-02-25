@@ -7,7 +7,7 @@ export interface GetNotesResponse {
 }
 
 const api: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://api.example.com',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://notehub-public.goit.study/api/auth',
   headers: {
     'Content-Type': 'application/json',
   },
