@@ -7,7 +7,7 @@ export interface GetNotesResponse {
 }
 
 const api: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://notehub-public.goit.study/api/auth',
+  baseURL: 'https://notehub-public.goit.study/api', 
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,6 +22,7 @@ api.interceptors.request.use((config) => {
 });
 
 export const getNotes = async (page: number = 1, search: string = ''): Promise<GetNotesResponse> => {
+  console.log("DEBUG: Token is", process.env.NEXT_PUBLIC_API_TOKEN);
   const { data } = await api.get<GetNotesResponse>('/notes', {
     params: { page, search },
   });
@@ -42,3 +43,4 @@ export const fetchNoteById = async (id: string): Promise<Note> => {
   const { data } = await api.get<Note>(`/notes/${id}`);
   return data;
 };
+
